@@ -18,6 +18,16 @@ class ReviseResourceDraftApplyProcessor extends modObjectGetProcessor {
         $this->beforeOutput();
         return $this->cleanup();
     }
+
+    public function cleanup() {
+        if ($this->getProperty('removeDraft', true)) {
+            $this->object->remove();
+        }
+        if ($this->getProperty('refreshCache', false)) {
+            $this->modx->getCacheManager()->refresh();
+        }
+        return parent::cleanup();
+    }
 }
 
 return 'ReviseResourceDraftApplyProcessor';

@@ -18,6 +18,13 @@ class ReviseResourceHistoryApplyProcessor extends modObjectGetProcessor {
         $this->beforeOutput();
         return $this->cleanup();
     }
+
+    public function cleanup() {
+        if ($this->getProperty('refreshCache', false)) {
+            $this->modx->getCacheManager()->refresh();
+        }
+        return parent::cleanup();
+    }
 }
 
 return 'ReviseResourceHistoryApplyProcessor';
