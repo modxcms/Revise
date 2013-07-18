@@ -30,17 +30,16 @@ abstract class ReviseResourceObject extends ReviseObject {
     }
 
     public function apply() {
-        $applied = false;
-        if ($this->getOne('Resource')) {
-            $this->prepareResource();
-            $applied = $this->Resource->save();
+        if (!$this->getOne('Resource')) {
+            $this->Resource = $this->xpdo->newObject('modResource');
         }
-        return $applied;
+        $this->prepareResource();
+        return $this->Resource->save();
     }
 
     protected function prepareResource() {
-        $this->Resource->fromArray($this->get('data'), '', false, true, true);
-        //TODO: handle resolving tv_data
+        $this->Resource->fromArray($this->get('data'), '', $this->Resource->isNew(), true, true);
+        //TODO: handle temporary tv_data
 //        $tvs = array();
 //        foreach ($this->get('tv_data') as $tvData) {
 //            /** @var modTemplateVar $tv */

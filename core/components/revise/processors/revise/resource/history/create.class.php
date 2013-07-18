@@ -1,6 +1,8 @@
 <?php
 class ReviseResourceHistoryCreateProcessor extends modObjectCreateProcessor {
     public $classKey = 'ReviseResourceHistory';
+    public $objectType = 'revise_resource_history';
+    public $languageTopics = array('resource', 'revise:default');
 
     public function initialize() {
         $this->setDefaultProperties(

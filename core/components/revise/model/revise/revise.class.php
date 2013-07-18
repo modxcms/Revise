@@ -33,7 +33,6 @@ class Revise {
         $this->modx->addPackage('revise', $this->getOption('core_path', null, MODX_CORE_PATH) . 'components/revise/model/');
         $this->modx->loadClass('ReviseObject');
         $this->modx->loadClass('ReviseResourceObject');
-        $this->modx->lexicon->load('revise:default');
     }
 
     public function getOption($key, $options = null, $default = null) {

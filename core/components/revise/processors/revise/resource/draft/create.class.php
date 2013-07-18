@@ -1,6 +1,8 @@
 <?php
 class ReviseResourceDraftCreateProcessor extends modObjectCreateProcessor {
     public $classKey = 'ReviseResourceDraft';
+    public $objectType = 'revise_resource_draft';
+    public $languageTopics = array('resource', 'revise:default');
 
     public function initialize() {
         $result = true;

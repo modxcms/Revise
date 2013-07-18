@@ -21,6 +21,9 @@
  */
 
 abstract class ReviseObject extends xPDOSimpleObject {
+    /** @var xPDO|modX */
+    public $xpdo = null;
+
     abstract public function apply();
     abstract public function view();
 }

@@ -1,7 +1,8 @@
 <?php
 class ReviseResourceHistoryGetListProcessor extends modObjectGetListProcessor {
     public $classKey = 'ReviseResourceHistory';
-//    public $languageTopics = array('draft');
+    public $objectType = 'revise_resource_history';
+    public $languageTopics = array('resource', 'revise:default');
     public $defaultSortField = 'time';
 
     public function getData() {
