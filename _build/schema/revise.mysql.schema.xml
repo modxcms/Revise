@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="revise" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM" version="1.1">
+    <object class="ReviseObject" extends="xPDOSimpleObject">
+        <field key="source" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" index="fk" />
+        <field key="user" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" index="fk" />
+        <field key="time" dbtype="datetime" phptype="datetime" null="false" />
+        <field key="message" dbtype="text" phptype="string" null="false" default="" />
+        <field key="data" dbtype="mediumtext" phptype="json" null="false" />
+
+        <index alias="source_user_time" name="source_user_time" primary="false" unique="true" type="BTREE">
+            <column key="source" length="" collation="A" null="false" />
+            <column key="user" length="" collation="A" null="false" />
+            <column key="time" length="" collation="A" null="false" />
+        </index>
+        <index alias="source" name="source" primary="false" unique="false" type="BTREE">
+            <column key="source" length="" collation="A" null="false" />
+        </index>
+        <index alias="user" name="user" primary="false" unique="false" type="BTREE">
+            <column key="user" length="" collation="A" null="false" />
+        </index>
+        <index alias="time" name="time" primary="false" unique="false" type="BTREE">
+            <column key="time" length="" collation="A" null="false" />
+        </index>
+
+        <aggregate alias="User" class="modUser" local="user" foreign="id" cardinality="one" owner="foreign" />
+    </object>
+    <object class="ReviseResourceObject" table="revise_resource_drafts" extends="ReviseObject">
+        <aggregate alias="Resource" class="modResource" local="source" foreign="id" cardinality="one" owner="foreign" />
+    </object>
+    <object class="ReviseResourceDraft" table="revise_resource_drafts" extends="ReviseResourceObject">
+    </object>
+    <object class="ReviseResourceHistory" table="revise_resource_history" extends="ReviseResourceObject">
+    </object>
+</model>

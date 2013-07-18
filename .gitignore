@@ -1,0 +1,12 @@
+# ignore common IDE project dirs/files
+.idea
+.settings
+.DS_Store
+nbproject
+
+# ignore local build files
+_build/build.config.php
+_build/build.properties.php
+
+# ignore adhoc test files in root
+/test-*.*
