@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var modX $modx
  * @var modResource $resource
  * @var string $mode
  */
@@ -8,7 +9,7 @@ switch ($modx->event->name) {
     case "OnBeforeDocFormSave":
         /* Create a ReviseResourceHistory record when updating a Resource */
         if (empty($reloadOnly) && !empty($resource) && isset($mode) && $mode === modSystemEvent::MODE_UPD) {
-            $modx->getService('revise', 'Revise', $corePath . 'components/revise/model/revise/', array('core_path' => $corePath));
+            $revise = $modx->getService('revise', 'Revise', $corePath . 'components/revise/model/revise/', array('core_path' => $corePath));
 
             /* get the resource fresh without the pending changes */
             $existingResource = $modx->getObject('modResource', $id, false);
@@ -25,7 +26,6 @@ switch ($modx->event->name) {
             if ($response->isError()) {
                 $modx->log(modX::LOG_LEVEL_ERROR, $response->getMessage(), '', 'modPlugin::Revise', __FILE__, __LINE__);
             }
-            return true;
         }
         break;
 
@@ -33,3 +33,4 @@ switch ($modx->event->name) {
         /* TODO: implement rendering of ReviseResourceDraft creation/preview controls */
         break;
 }
+return true;

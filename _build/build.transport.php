@@ -128,7 +128,9 @@ $vehicle->resolve(
     array(
          'source' => $sources['assets_core'],
          'target' => "return MODX_ASSETS_PATH . 'components/';",
-    ));
+    )
+);
+$vehicle->resolve('php', array('source' => $sources['resolvers'] . PKG_NAME . '.model.php'));
 $builder->putVehicle($vehicle);
 unset($vehicle, $category);
 
@@ -143,6 +145,9 @@ if ($plugins = include $sources['data'] . 'transport.plugins.php') {
                 xPDOTransport::UPDATE_OBJECT => true
             )
         );
+        if (file_exists($sources['resolvers'] . PKG_NAME . '.category.php')) {
+            $vehicle->resolve('php', array('source' => $sources['resolvers'] . PKG_NAME . '.category.php'));
+        }
         if (file_exists($sources['resolvers'] . PKG_NAME . '.pluginevents.php')) {
             $vehicle->resolve('php', array('source' => $sources['resolvers'] . PKG_NAME . '.pluginevents.php'));
         }

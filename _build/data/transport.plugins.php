@@ -6,12 +6,14 @@ $element = $modx->newObject('modPlugin');
 $element->fromArray(
     array(
         'name' => 'Revise',
-        'plugincode' => file_get_contents($sources['source_core'] . 'elements/plugins/Revise.php'),
+        'description' => 'Handles creating historical revisions when editing Resources.'
     ),
     '',
     true,
     true
 );
+$element->set('plugincode', file_get_contents($sources['source_core'] . 'elements/plugins/Revise.php'));
+
 $properties = include $sources['properties'] . 'Revise.properties.php';
 $element->setProperties($properties);
 array_push($elements, $element);
