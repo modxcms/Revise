@@ -13,9 +13,11 @@ $root = dirname(dirname(__FILE__)) . '/';
 $sources = array(
     'root' => $root,
     'build' => $root . '_build/',
-    'properties' => $root . '_build/properties/',
-    'assets_core' => $root . 'assets/components/revise',
-    'source_core' => $root . 'core/components/revise',
+    'data' => $root . '_build/data/',
+    'resolvers' => $root . '_build/resolvers/',
+    'properties' => $root . '_build/data/properties/',
+    'assets_core' => $root . 'assets/components/revise/',
+    'source_core' => $root . 'core/components/revise/',
 );
 unset($root);
 
@@ -112,14 +114,6 @@ $vehicle = $builder->createVehicle(
         xPDOTransport::UNIQUE_KEY => 'category',
         xPDOTransport::PRESERVE_KEYS => false,
         xPDOTransport::UPDATE_OBJECT => true,
-        xPDOTransport::RELATED_OBJECTS => true,
-        xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
-            'Snippets' => array(
-                xPDOTransport::PRESERVE_KEYS => false,
-                xPDOTransport::UPDATE_OBJECT => true,
-                xPDOTransport::UNIQUE_KEY => 'name',
-            ),
-        )
     )
 );
 $vehicle->resolve(
@@ -138,12 +132,33 @@ $vehicle->resolve(
 $builder->putVehicle($vehicle);
 unset($vehicle, $category);
 
+/* package in plugins */
+if ($plugins = include $sources['data'] . 'transport.plugins.php') {
+    foreach ($plugins as $pluginName => $plugin) {
+        $vehicle = $builder->createVehicle(
+            $plugin,
+            array(
+                xPDOTransport::UNIQUE_KEY => 'name',
+                xPDOTransport::PRESERVE_KEYS => false,
+                xPDOTransport::UPDATE_OBJECT => true
+            )
+        );
+        if (file_exists($sources['resolvers'] . PKG_NAME . '.pluginevents.php')) {
+            $vehicle->resolve('php', array('source' => $sources['resolvers'] . PKG_NAME . '.pluginevents.php'));
+        }
+        $builder->putVehicle($vehicle);
+    }
+}
+
 /* now pack in the license file, readme and setup options */
 $builder->setPackageAttributes(
     array(
-         'license' => file_get_contents($sources['source_core'] . '/docs/license.txt'),
-         'readme' => file_get_contents($sources['source_core'] . '/docs/readme.txt'),
-         'changelog' => file_get_contents($sources['source_core'] . '/docs/changelog.txt'),
+        'license' => file_get_contents($sources['source_core'] . 'docs/license.txt'),
+        'readme' => file_get_contents($sources['source_core'] . 'docs/readme.txt'),
+        'changelog' => file_get_contents($sources['source_core'] . 'docs/changelog.txt'),
+        'setup-options' => array(
+            'source' => $sources['build'] . 'setup.options.php'
+        )
     )
 );
 
@@ -154,6 +169,6 @@ $tend = microtime(true);
 $totalTime = ($tend - $tstart);
 $totalTime = sprintf("%2.4f s", $totalTime);
 
-$modx->log(modX::LOG_LEVEL_INFO, "Package Built Successfully.");
+$modx->log(modX::LOG_LEVEL_INFO, PKG_NAME . " Package Built Successfully.");
 $modx->log(modX::LOG_LEVEL_INFO, "Execution time: {$totalTime}");
 exit();
