@@ -1,6 +1,8 @@
 <?php
 class ReviseResourceDraftGetListProcessor extends modObjectGetListProcessor {
     public $classKey = 'ReviseResourceDraft';
+    /** @var ReviseResourceDraft */
+    public $object;
     public $objectType = 'revise_resource_draft';
     public $languageTopics = array('resource', 'revise:default');
     public $defaultSortField = 'time';

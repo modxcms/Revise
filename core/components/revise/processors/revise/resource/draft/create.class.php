@@ -1,6 +1,8 @@
 <?php
 class ReviseResourceDraftCreateProcessor extends modObjectCreateProcessor {
     public $classKey = 'ReviseResourceDraft';
+    /** @var ReviseResourceDraft */
+    public $object;
     public $objectType = 'revise_resource_draft';
     public $languageTopics = array('resource', 'revise:default');
 
@@ -10,10 +12,10 @@ class ReviseResourceDraftCreateProcessor extends modObjectCreateProcessor {
             array(
                 'user' => $this->modx->getUser()->id,
                 'time' => strftime("%Y-%m-%d %H:%M:%S"),
-                'single_draft' => $this->modx->revise->getOption('single_draft', null, true),
+                'singleDraft' => $this->modx->revise->getOption('singleDraft', null, true),
             )
         );
-        if ($this->getProperty('single_draft', true)) {
+        if ($this->getProperty('singleDraft', true)) {
             $this->object = $this->modx->getObject(
                 $this->classKey,
                 array(
@@ -22,7 +24,7 @@ class ReviseResourceDraftCreateProcessor extends modObjectCreateProcessor {
                 )
             );
         }
-        if (!$this->getProperty('single_draft', true) || empty($this->object)) {
+        if (!$this->getProperty('singleDraft', true) || empty($this->object)) {
             $result = parent::initialize();
         }
         return $result;
