@@ -29,8 +29,21 @@ class Revise {
 
     public function __construct(&$modx, array $options = array()) {
         $this->modx =& $modx;
-        $this->options = $options;
+        $corePath = $this->getOption('core_path', $options, MODX_CORE_PATH) . 'components/revise/';
+        $assetsUrl = $this->getOption('assets_url', $options, MODX_ASSETS_URL) . 'components/revise/';
+        $connectorUrl = $assetsUrl . 'connector.php';
+        $this->options = array_merge(
+            array(
+                'assetsUrl' => $assetsUrl,
+                'connectorUrl' => $connectorUrl,
+                'corePath' => $corePath,
+                'modelPath' => $corePath . 'model/',
+                'processorsPath' => $corePath . 'processors/',
+            ),
+            $options
+        );
         $this->modx->addPackage('revise', $this->getOption('core_path', null, MODX_CORE_PATH) . 'components/revise/model/');
+        $this->modx->lexicon->load('revise:default');
         $this->modx->loadClass('ReviseObject');
         $this->modx->loadClass('ReviseResourceObject');
     }

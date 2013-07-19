@@ -1,5 +1,5 @@
 <?php
-class ReviseResourceViewManagerController extends modExtraManagerController {
+class ReviseResourceViewManagerController extends ReviseManagerController {
     public $loadHeader = false;
     public $loadFooter = false;
     public $loadBaseJavascript = false;
@@ -7,18 +7,6 @@ class ReviseResourceViewManagerController extends modExtraManagerController {
     private $object;
     private $objectType;
     private $classKey;
-
-    public function initialize() {
-        $corePath = $this->modx->getOption('revise.core_path', null, $this->modx->getOption('core_path', null, MODX_CORE_PATH));
-        $this->modx->getService(
-            'revise',
-            'Revise',
-            $corePath . 'components/revise/model/revise/',
-            array(
-                'core_path' => $corePath
-            )
-        );
-    }
 
     public function process(array $scriptProperties = array()) {
         $this->objectType = isset($scriptProperties['type']) ? $scriptProperties['type'] : 'revise_resource_draft';
