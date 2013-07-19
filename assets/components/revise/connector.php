@@ -14,10 +14,9 @@ $modx->getService(
 );
 
 /* handle request */
-$path = $modx->getOption('processors_path', null, $corePath . 'components/revise/processors/');
 $modx->request->handleRequest(
     array(
-        'processors_path' => $path,
+        'processors_path' => $modx->getOption('processors_path', null, $corePath . 'components/revise/processors/'),
         'location' => '',
     )
 );
