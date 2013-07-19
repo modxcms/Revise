@@ -51,7 +51,7 @@ abstract class ReviseResourceObject extends ReviseObject {
     }
 
     protected function prepareOutput() {
-        $output = '';
+        $output = array();
 
         $maxIterations = (integer) $this->getOption('max_iterations', null, 10);
         $currentResource = $this->xpdo->resource;
@@ -128,11 +128,11 @@ abstract class ReviseResourceObject extends ReviseObject {
                 $charset= $this->xpdo->getOption('modx_charset',null,'UTF-8');
                 $header .= '; charset=' . $charset;
             }
-            header($header);
+            $output['headers'][] = $header;
             $dispositionSet= false;
             if ($customHeaders= $this->Resource->ContentType->get('headers')) {
                 foreach ($customHeaders as $headerKey => $headerString) {
-                    header($headerString);
+                    $output['headers'][] = $headerString;
                     if (strpos($headerString, 'Content-Disposition:') !== false) $dispositionSet= true;
                 }
             }
@@ -155,12 +155,9 @@ abstract class ReviseResourceObject extends ReviseObject {
                         $name .= ".{$ext}";
                     }
                 }
-                $header= 'Cache-Control: public';
-                header($header);
-                $header= 'Content-Disposition: attachment; filename=' . $name;
-                header($header);
-                $header= 'Vary: User-Agent';
-                header($header);
+                $output['headers'][] = 'Cache-Control: public';
+                $output['headers'][] = 'Content-Disposition: attachment; filename=' . $name;
+                $output['headers'][] =  'Vary: User-Agent';
             }
         }
 
@@ -170,7 +167,7 @@ abstract class ReviseResourceObject extends ReviseObject {
             if ($this->Resource->ContentType->get('binary')) {
                 $this->Resource->_output = $this->Resource->process();
             }
-            $output = $this->Resource->_output;
+            $output['body'] = $this->Resource->_output;
         }
 
         ob_end_flush();
