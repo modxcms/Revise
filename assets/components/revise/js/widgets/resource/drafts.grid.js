@@ -54,7 +54,7 @@ Revise.grid.ResourceDrafts = function(config) {
         },'->',{
             xtype: 'textfield'
             ,name: 'source'
-            ,id: 'revise-source-filter'
+            ,id: 'drafts-source-filter'
             ,emptyText: _('revise_filter_by_source')
             ,listeners: {
                 'select': {fn:this.filterSource, scope:this}
@@ -62,20 +62,20 @@ Revise.grid.ResourceDrafts = function(config) {
         },{
             xtype: 'textfield'
             ,name: 'user'
-            ,id: 'revise-user-filter'
+            ,id: 'drafts-user-filter'
             ,emptyText: _('revise_filter_by_user')
             ,listeners: {
                 'select': {fn:this.filterUser, scope:this}
             }
         },{
             xtype: 'datefield',
-            id: 'revise-after-filter'
+            id: 'drafts-after-filter'
             ,listeners: {
                 'select': {fn: this.filterDate, scope: this}
             }
         },{
             xtype: 'datefield',
-            id: 'revise-before-filter'
+            id: 'drafts-before-filter'
             ,listeners: {
                 'select': {fn: this.filterDate, scope: this}
             }

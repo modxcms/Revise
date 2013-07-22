@@ -54,7 +54,7 @@ Revise.grid.ResourceHistory = function(config) {
         },'->',{
             xtype: 'textfield'
             ,name: 'source'
-            ,id: 'revise-source-filter'
+            ,id: 'history-source-filter'
             ,emptyText: _('revise_filter_by_source')
             ,listeners: {
                 'select': {fn:this.filterSource, scope:this}
@@ -62,20 +62,20 @@ Revise.grid.ResourceHistory = function(config) {
         },{
             xtype: 'textfield'
             ,name: 'user'
-            ,id: 'revise-user-filter'
+            ,id: 'history-user-filter'
             ,emptyText: _('revise_filter_by_user')
             ,listeners: {
                 'select': {fn:this.filterUser, scope:this}
             }
         },{
             xtype: 'datefield',
-            id: 'revise-after-filter'
+            id: 'history-after-filter'
             ,listeners: {
                 'select': {fn: this.filterDate, scope: this}
             }
         },{
             xtype: 'datefield',
-            id: 'revise-before-filter'
+            id: 'history-before-filter'
             ,listeners: {
                 'select': {fn: this.filterDate, scope: this}
             }
