@@ -95,27 +95,27 @@ Ext.extend(Revise.grid.ResourceHistory,MODx.grid.Grid,{
         this.getStore().baseParams = {
             action: 'revise/resource/history/getList'
         };
-        Ext.getCmp('revise-source-filter').reset();
-        Ext.getCmp('revise-user-filter').reset();
-        Ext.getCmp('revise-after-filter').reset();
-        Ext.getCmp('revise-before-filter').reset();
+        Ext.getCmp('history-source-filter').reset();
+        Ext.getCmp('history-user-filter').reset();
+        Ext.getCmp('history-after-filter').reset();
+        Ext.getCmp('history-before-filter').reset();
         this.getBottomToolbar().changePage(1);
         this.refresh();
     }
     ,filterSource: function() {}
     ,filterUser: function() {}
     ,filterDate: function() {
-        var after = Ext.getCmp('revise-after-filter').getValue();
-        var before = Ext.getCmp('revise-before-filter').getValue();
+        var after = Ext.getCmp('history-after-filter').getValue();
+        var before = Ext.getCmp('history-before-filter').getValue();
         var haveBothDates = after !== null && before !== null;
         // date sanity
         if(haveBothDates) {
-            if(picker.id == 'revise-after-filter' && after > before) {
-                Ext.getCmp('revise-after-filter').setValue(before);
+            if(picker.id == 'history-after-filter' && after > before) {
+                Ext.getCmp('history-after-filter').setValue(before);
                 after = before;
             }
-            if(picker.id == 'revise-before-filter' && after > before) {
-                Ext.getCmp('revise-before-filter').setValue(after);
+            if(picker.id == 'history-before-filter' && after > before) {
+                Ext.getCmp('history-before-filter').setValue(after);
                 before = after;
             }
         }
