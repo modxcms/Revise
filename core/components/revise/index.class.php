@@ -13,6 +13,16 @@ abstract class ReviseManagerController extends modExtraManagerController {
                 'core_path' => $corePath
             )
         );
+
+        $this->addJavascript(MODX_MANAGER_URL.'assets/modext/util/datetime.js');
+        $this->addJavascript($this->revise->getOption('assetsUrl') . 'js/revise.js');
+
+        $this->addHtml('<script type="text/javascript">
+        Ext.onReady(function() {
+            Revise.config = '.$this->modx->toJSON($this->revise->options).';
+            Revise.request = '.$this->modx->toJSON($_GET).';
+        });
+        </script>');
     }
 }
 

@@ -2,7 +2,7 @@ Revise.panel.History = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         id: 'revise-panel-history'
-        ,url: Revise.config.connector_url
+        ,url: Revise.config.connectorUrl
         ,cls: 'container form-with-labels'
         ,labelAlign: top
         ,baseParams: {}
@@ -22,10 +22,12 @@ Revise.panel.History = function(config) {
                 return this.items.indexOf(this.getActiveTab());
             }
             ,items: [{
-                xtype: 'revise-grid-resource-history'
+                title: 'History'
+                ,xtype: 'revise-grid-resource-history'
+                ,preventRender: true
                 ,cls: 'revise-grid main-wrapper'
                 ,width: '98%'
-            },{
+           },{
                 xtype: 'revise-grid-resource-drafts'
                 ,cls: 'revise-grid main-wrapper'
                 ,preventRender: true

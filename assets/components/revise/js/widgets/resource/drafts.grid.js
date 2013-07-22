@@ -3,7 +3,7 @@ Revise.grid.ResourceDrafts = function(config) {
     this.sm = new Ext.grid.CheckboxSelectionModel();
     this.ident = config.ident || 'revise-'+Ext.id();
     Ext.applyIf(config,{
-        url: Revise.config.connector_url
+        url: Revise.config.connectorUrl
         ,baseParams: {
             action: 'revise/resource/draft/getList'
             ,source: config.source || null
@@ -52,7 +52,7 @@ Revise.grid.ResourceDrafts = function(config) {
                 ,scope: this
             }]
         },'->',{
-            xtype: 'revise-combo-source'
+            xtype: 'textfield'
             ,name: 'source'
             ,id: 'revise-source-filter'
             ,emptyText: _('revise.filter_by_source')
@@ -60,7 +60,7 @@ Revise.grid.ResourceDrafts = function(config) {
                 'select': {fn:this.filterSource, scope:this}
             }
         },{
-            xtype: 'revise-combo-user'
+            xtype: 'textfield'
             ,name: 'user'
             ,id: 'revise-user-filter'
             ,emptyText: _('revise.filter_by_user')
@@ -127,3 +127,4 @@ Ext.extend(Revise.grid.ResourceDrafts,MODx.grid.Grid,{
         }
     }
 });
+Ext.reg('revise-grid-resource-drafts',Revise.grid.ResourceDrafts);

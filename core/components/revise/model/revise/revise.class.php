@@ -23,9 +23,9 @@
 class Revise {
     /** @var modX */
     protected $modx;
-    protected $options = array();
     protected $drafts = array();
     protected $history = array();
+    public $options = array();
 
     public function __construct(&$modx, array $options = array()) {
         $this->modx =& $modx;
