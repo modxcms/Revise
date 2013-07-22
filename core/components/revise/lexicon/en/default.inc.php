@@ -1,5 +1,7 @@
 <?php
 $_lang['revise'] = "Revise";
+$_lang['revise_desc'] = "Resource History and Draft Management";
+
 $_lang['revise_resource_draft_err_ns'] = "Draft key not specified.";
 $_lang['revise_resource_history_err_nfs'] = "Specified Draft not found.";
 $_lang['revise_resource_draft_apply_err'] = "An error occurred attempting to apply the Draft to Resource [[+id]]";
