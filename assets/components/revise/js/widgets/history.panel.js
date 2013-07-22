@@ -7,7 +7,7 @@ Revise.panel.History = function(config) {
         ,labelAlign: top
         ,baseParams: {}
         ,items: [{
-            html: '<h2>'+_('revise.history')+'</h2>'
+            html: '<h2>'+_('revise_desc')+'</h2>'
             ,border: false
             ,id: 'revise-history'
             ,cls: 'modx-page-header'
@@ -22,13 +22,14 @@ Revise.panel.History = function(config) {
                 return this.items.indexOf(this.getActiveTab());
             }
             ,items: [{
-                title: 'History'
+                title: _('revise_history')
                 ,xtype: 'revise-grid-resource-history'
                 ,preventRender: true
                 ,cls: 'revise-grid main-wrapper'
                 ,width: '98%'
            },{
-                xtype: 'revise-grid-resource-drafts'
+                title: _('revise_drafts')
+                ,xtype: 'revise-grid-resource-drafts'
                 ,cls: 'revise-grid main-wrapper'
                 ,preventRender: true
                 ,width: '98%'

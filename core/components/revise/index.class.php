@@ -24,6 +24,10 @@ abstract class ReviseManagerController extends modExtraManagerController {
         });
         </script>');
     }
+
+    public function getLanguageTopics() {
+        return array('revise:default');
+    }
 }
 
 class IndexManagerController extends ReviseManagerController {

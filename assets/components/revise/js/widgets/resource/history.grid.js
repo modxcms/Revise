@@ -18,24 +18,24 @@ Revise.grid.ResourceHistory = function(config) {
         ,autoExpandColumn: 'message'
         ,sm: this.sm
         ,columns: [this.sm,{
-            header: _('revise.source')
+            header: _('revise_source')
             ,dataIndex: 'source'
             ,editable: false
             ,width: 100
 //            ,renderer: this.renderSource
         },{
-            header: _('revise.user')
+            header: _('revise_user')
             ,dataIndex: 'user'
             ,editable: false
             ,width: 100
 //            ,renderer: this.renderUser
         },{
-            header: _('revise.time')
+            header: _('revise_time')
             ,dataIndex: 'time'
             ,editable: false
             ,width: 100
         },{
-            header: _('revise.message')
+            header: _('revise_message')
             ,dataIndex: 'message'
             ,width: 250
         }]
@@ -45,9 +45,9 @@ Revise.grid.ResourceHistory = function(config) {
             ,showPreview:true
         }
         ,tbar: [{
-            text: _('revise.bulk_actions')
+            text: _('revise_bulk_actions')
             ,menu: [{
-                text: _('revise.remove_selected')
+                text: _('revise_remove_selected')
                 ,handler: this.removeSelected
                 ,scope: this
             }]
@@ -55,7 +55,7 @@ Revise.grid.ResourceHistory = function(config) {
             xtype: 'textfield'
             ,name: 'source'
             ,id: 'revise-source-filter'
-            ,emptyText: _('revise.filter_by_source')
+            ,emptyText: _('revise_filter_by_source')
             ,listeners: {
                 'select': {fn:this.filterSource, scope:this}
             }
@@ -63,7 +63,7 @@ Revise.grid.ResourceHistory = function(config) {
             xtype: 'textfield'
             ,name: 'user'
             ,id: 'revise-user-filter'
-            ,emptyText: _('revise.filter_by_user')
+            ,emptyText: _('revise_filter_by_user')
             ,listeners: {
                 'select': {fn:this.filterUser, scope:this}
             }
