@@ -19,7 +19,7 @@ abstract class ReviseManagerController extends modExtraManagerController {
 
         $this->addHtml('<script type="text/javascript">
         Ext.onReady(function() {
-            Revise.config = '.$this->modx->toJSON($this->revise->options).';
+            Revise.config = '.$this->modx->toJSON($this->revise->getOptions()).';
             Revise.request = '.$this->modx->toJSON($_GET).';
         });
         </script>');

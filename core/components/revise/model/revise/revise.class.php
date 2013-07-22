@@ -48,6 +48,10 @@ class Revise {
         $this->modx->loadClass('ReviseResourceObject');
     }
 
+    public function getOptions() {
+        return $this->options;
+    }
+
     public function getOption($key, $options = null, $default = null) {
         $value = $default;
         if (is_array($options) && array_key_exists($key, $options)) {
