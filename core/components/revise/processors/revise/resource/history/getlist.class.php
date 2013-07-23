@@ -29,8 +29,24 @@ class ReviseResourceHistoryGetListProcessor extends modObjectGetListProcessor {
             $c->limit($limit,$start);
         }
 
-        $data['results'] = $this->modx->getCollection($this->classKey,$c);
+        $data['results'] = $this->modx->getCollection($this->classKey, $c);
         return $data;
+    }
+
+    public function afterIteration($list) {
+        foreach ($list as &$item) {
+            $item['menu'] = array(
+                array(
+                    'text' => $this->modx->lexicon('revise_view_resource_history'),
+                    'handler' => 'this.viewRevision'
+                ),
+                array(
+                    'text' => $this->modx->lexicon('revise_apply_resource_history'),
+                    'handler' => 'this.applyRevision'
+                )
+            );
+        }
+        return $list;
     }
 
     public function prepareQueryBeforeCount(xPDOQuery $c) {

@@ -11,10 +11,11 @@ Revise.grid.ResourceHistory = function(config) {
             ,after: config.after || null
             ,before: config.before || null
         }
-        ,fields: ['id','source','user','time','message']
+        ,fields: ['id','source','user','time','message','menu']
         ,paging: true
         ,autosave: false
         ,remoteSort: true
+        ,refreshCache: config.refreshCache || false
         ,autoExpandColumn: 'message'
         ,sm: this.sm
         ,columns: [this.sm,{
@@ -126,6 +127,21 @@ Ext.extend(Revise.grid.ResourceHistory,MODx.grid.Grid,{
         if(before !== null) {
             grid.getStore().baseParams['before'] = before;
         }
+    }
+    ,viewRevision: function() {
+    }
+    ,applyRevision: function() {
+        MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'revise/resource/history/apply'
+                ,id: this.menu.record.id
+                ,refreshCache: this.config.refreshCache
+            }
+            ,listeners: {
+                'success': {fn:this.refresh,scope:this}
+            }
+        });
     }
 });
 Ext.reg('revise-grid-resource-history',Revise.grid.ResourceHistory);
