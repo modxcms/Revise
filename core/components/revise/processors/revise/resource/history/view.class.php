@@ -7,10 +7,12 @@ class ReviseResourceHistoryViewProcessor extends modObjectGetProcessor {
     public $languageTopics = array('resource', 'revise:default');
 
     public function cleanup() {
-        return $this->success(
-            '',
-            $this->object->view()
-        );
+        $view = $this->object->view();
+        if ($this->getProperty('renderView', true)) {
+            foreach ($view['headers'] as $header) header($header);
+            return $view['body'];
+        }
+        return $this->success('', $view);
     }
 }
 

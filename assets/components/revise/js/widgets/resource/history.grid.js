@@ -129,6 +129,8 @@ Ext.extend(Revise.grid.ResourceHistory,MODx.grid.Grid,{
         }
     }
     ,viewRevision: function() {
+        var url = this.config.url + '?action=revise/resource/history/view&id=' + this.menu.record.id + '&HTTP_MODAUTH=' + MODx.siteId;
+        window.open(url);
     }
     ,applyRevision: function() {
         MODx.Ajax.request({

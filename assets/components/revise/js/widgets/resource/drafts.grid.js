@@ -15,6 +15,8 @@ Revise.grid.ResourceDrafts = function(config) {
         ,paging: true
         ,autosave: false
         ,remoteSort: true
+        ,refreshCache: config.refreshCache || false
+        ,removeDraft: config.removeDraft || true
         ,autoExpandColumn: 'message'
         ,sm: this.sm
         ,columns: [this.sm,{
@@ -126,6 +128,24 @@ Ext.extend(Revise.grid.ResourceDrafts,MODx.grid.Grid,{
         if(before !== null) {
             grid.getStore().baseParams['before'] = before;
         }
+    }
+    ,viewRevision: function() {
+        var url = this.config.url + '?action=revise/resource/draft/view&id=' + this.menu.record.id + '&HTTP_MODAUTH=' + MODx.siteId;
+        window.open(url);
+    }
+    ,applyRevision: function() {
+        MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'revise/resource/draft/apply'
+                ,id: this.menu.record.id
+                ,refreshCache: this.config.refreshCache
+                ,removeDraft: this.config.removeDraft
+            }
+            ,listeners: {
+                'success': {fn:this.refresh,scope:this}
+            }
+        });
     }
 });
 Ext.reg('revise-grid-resource-drafts',Revise.grid.ResourceDrafts);
