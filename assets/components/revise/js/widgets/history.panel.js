@@ -24,12 +24,14 @@ Revise.panel.History = function(config) {
             ,items: [{
                 title: _('revise_history')
                 ,xtype: 'revise-grid-resource-history'
+                ,id: 'revise-grid-resource-history'
                 ,preventRender: true
                 ,cls: 'revise-grid main-wrapper'
                 ,width: '98%'
            },{
                 title: _('revise_drafts')
                 ,xtype: 'revise-grid-resource-drafts'
+                ,id: 'revise-grid-resource-drafts'
                 ,cls: 'revise-grid main-wrapper'
                 ,preventRender: true
                 ,width: '98%'

@@ -71,13 +71,13 @@ Revise.grid.ResourceHistory = function(config) {
             xtype: 'datefield',
             id: 'history-after-filter'
             ,listeners: {
-                'select': {fn: this.filterDate, scope: this}
+                'select': {fn: this.filterDate}
             }
         },{
             xtype: 'datefield',
             id: 'history-before-filter'
             ,listeners: {
-                'select': {fn: this.filterDate, scope: this}
+                'select': {fn: this.filterDate}
             }
         },{
             xtype: 'button'
@@ -105,25 +105,26 @@ Ext.extend(Revise.grid.ResourceHistory,MODx.grid.Grid,{
     ,filterSource: function() {}
     ,filterUser: function() {}
     ,filterDate: function() {
+        var grid = Ext.getCmp('revise-grid-resource-history');
         var after = Ext.getCmp('history-after-filter').getValue();
         var before = Ext.getCmp('history-before-filter').getValue();
         var haveBothDates = after !== null && before !== null;
         // date sanity
         if(haveBothDates) {
-            if(picker.id == 'history-after-filter' && after > before) {
+            if(this.id == 'history-after-filter' && after > before) {
                 Ext.getCmp('history-after-filter').setValue(before);
                 after = before;
             }
-            if(picker.id == 'history-before-filter' && after > before) {
+            if(this.id == 'history-before-filter' && after > before) {
                 Ext.getCmp('history-before-filter').setValue(after);
                 before = after;
             }
         }
         if(after !== null) {
-            this.getStore().baseParams['after'] = after;
+            grid.getStore().baseParams['after'] = after;
         }
         if(before !== null) {
-            this.getStore().baseParams['before'] = before;
+            grid.getStore().baseParams['before'] = before;
         }
     }
 });
