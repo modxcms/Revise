@@ -30,7 +30,6 @@ class ReviseResourceDraftGetListProcessor extends modObjectGetListProcessor {
         }
 
         $data['results'] = $this->modx->getCollection($this->classKey, $c);
-
         return $data;
     }
 

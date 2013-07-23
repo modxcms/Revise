@@ -11,7 +11,7 @@ Revise.grid.ResourceDrafts = function(config) {
             ,after: config.after || null
             ,before: config.before || null
         }
-        ,fields: ['id','source','user','time','message']
+        ,fields: ['id','source','user','time','message','menu']
         ,paging: true
         ,autosave: false
         ,remoteSort: true
