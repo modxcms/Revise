@@ -21,12 +21,13 @@
  */
 
 abstract class ReviseResourceObject extends ReviseObject {
-    public function view() {
+    public function view(array $options = array()) {
         if (!$this->getOne('Resource')) {
             $this->Resource = $this->xpdo->newObject('modResource');
         }
         $this->prepareResource();
-        return $this->prepareOutput();
+        $ignoreTemplate = isset($options['ignoreTemplate']) && !empty($options['ignoreTemplate']);
+        return $this->prepareOutput($ignoreTemplate);
     }
 
     public function apply() {
@@ -50,7 +51,7 @@ abstract class ReviseResourceObject extends ReviseObject {
 //        $this->Resource->addMany($tvs);
     }
 
-    protected function prepareOutput() {
+    protected function prepareOutput($ignoreTemplate = false) {
         $output = array();
 
         $maxIterations = (integer) $this->getOption('max_iterations', null, 10);
@@ -75,8 +76,12 @@ abstract class ReviseResourceObject extends ReviseObject {
         ob_start();
 
         if (!$this->Resource->ContentType->get('binary')) {
-            $this->Resource->_output = $this->Resource->process();
-
+            if ($ignoreTemplate) {
+                $this->Resource->_output = $this->Resource->getContent();
+                $this->xpdo->getParser()->processElementTags('[[*content]]', $this->Resource->_output, false, false, '[[', ']]', array(), $maxIterations);
+            } else {
+                $this->Resource->_output = $this->Resource->process();
+            }
             $this->Resource->_jscripts= $this->xpdo->jscripts;
             $this->Resource->_sjscripts= $this->xpdo->sjscripts;
             $this->Resource->_loadedjscripts= $this->xpdo->loadedjscripts;

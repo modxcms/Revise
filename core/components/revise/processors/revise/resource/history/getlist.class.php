@@ -33,7 +33,7 @@ class ReviseResourceHistoryGetListProcessor extends modObjectGetListProcessor {
         return $data;
     }
 
-    public function afterIteration($list) {
+    public function afterIteration(array $list) {
         foreach ($list as &$item) {
             $item['menu'] = array(
                 array(

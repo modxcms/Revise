@@ -7,9 +7,11 @@ class ReviseResourceDraftViewProcessor extends modObjectGetProcessor {
     public $languageTopics = array('resource', 'revise:default');
 
     public function cleanup() {
-        $view = $this->object->view();
+        $view = $this->object->view(array('ignoreTemplate' => $this->getProperty('ignoreTemplate', false)));
         if ($this->getProperty('renderView', true)) {
-            foreach ($view['headers'] as $header) header($header);
+            if ($this->getProperty('setHeaders', false) && !$this->getProperty('ignoreTemplate', false)) {
+                foreach ($view['headers'] as $header) header($header);
+            }
             return $view['body'];
         }
         return $this->success('', $view);

@@ -25,5 +25,5 @@ abstract class ReviseObject extends xPDOSimpleObject {
     public $xpdo = null;
 
     abstract public function apply();
-    abstract public function view();
+    abstract public function view(array $options = array());
 }
