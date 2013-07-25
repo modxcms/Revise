@@ -9,6 +9,12 @@
 $tstart = microtime(true);
 set_time_limit(0);
 
+/* package defines */
+define('PKG_NAME', 'Revise');
+define('PKG_VERSION', '1.0.0');
+define('PKG_RELEASE', 'dev');
+define('PKG_LNAME', strtolower(PKG_NAME));
+
 $root = dirname(dirname(__FILE__)) . '/';
 $sources = array(
     'root' => $root,
@@ -16,16 +22,10 @@ $sources = array(
     'data' => $root . '_build/data/',
     'resolvers' => $root . '_build/resolvers/',
     'properties' => $root . '_build/data/properties/',
-    'assets_core' => $root . 'assets/components/revise/',
-    'source_core' => $root . 'core/components/revise/',
+    'assets_core' => $root . 'assets/components/' . PKG_LNAME . '/',
+    'source_core' => $root . 'core/components/' . PKG_LNAME . '/',
 );
 unset($root);
-
-/* package defines */
-define('PKG_NAME', 'Revise');
-define('PKG_VERSION', '1.0.0');
-define('PKG_RELEASE', 'dev');
-define('PKG_LNAME', strtolower(PKG_NAME));
 
 // override with your own defines here (see build.config.sample.php)
 require_once $sources['build'] . 'build.config.php';
@@ -101,7 +101,6 @@ unset($vehicle, $action, $menu);
 $category = $modx->newObject('modCategory');
 $category->fromArray(
     array(
-        'id' => 1,
         'category' => PKG_NAME
     ),
     '',
@@ -113,7 +112,7 @@ $vehicle = $builder->createVehicle(
     array(
         xPDOTransport::UNIQUE_KEY => 'category',
         xPDOTransport::PRESERVE_KEYS => false,
-        xPDOTransport::UPDATE_OBJECT => true,
+        xPDOTransport::UPDATE_OBJECT => false,
     )
 );
 $vehicle->resolve(
@@ -142,7 +141,7 @@ if ($plugins = include $sources['data'] . 'transport.plugins.php') {
             array(
                 xPDOTransport::UNIQUE_KEY => 'name',
                 xPDOTransport::PRESERVE_KEYS => false,
-                xPDOTransport::UPDATE_OBJECT => true
+                xPDOTransport::UPDATE_OBJECT => true,
             )
         );
         if (file_exists($sources['resolvers'] . PKG_NAME . '.category.php')) {
