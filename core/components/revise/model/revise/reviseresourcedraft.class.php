@@ -20,38 +20,4 @@
  * Suite 330, Boston, MA 02111-1307 USA
  */
 
-class ReviseResourceDraft extends ReviseResourceObject {
-    public function apply() {
-        $applied = false;
-        if (!$this->getOne('Resource')) {
-            $this->Resource = $this->xpdo->newObject('modResource');
-        }
-        $this->prepareResource();
-        if ($this->createResourceHistory()) {
-            $applied = $this->Resource->save();
-        }
-        return $applied;
-    }
-
-    protected function createResourceHistory() {
-        $created = false;
-
-        /** @var modProcessorResponse $response */
-        $response = $this->xpdo->runProcessor(
-            'revise/resource/history/create',
-            array(
-                'source' => $this->Resource->get('id'),
-                'data' => $this->Resource->toArray('', true, true, false)
-            ),
-            array('processors_path' => $this->xpdo->revise->getOption('processorsPath'))
-        );
-
-        if (!$response->isError()) {
-            $object = $response->getObject();
-            $created = $object['id'];
-        } else {
-            $this->xpdo->log(xPDO::LOG_LEVEL_ERROR, $response->getMessage(), '', __METHOD__, __FILE__, __LINE__);
-        }
-        return $created;
-    }
-}
+class ReviseResourceDraft extends ReviseResourceObject {}

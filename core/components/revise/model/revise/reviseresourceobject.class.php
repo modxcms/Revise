@@ -31,11 +31,37 @@ abstract class ReviseResourceObject extends ReviseObject {
     }
 
     public function apply() {
+        $applied = false;
         if (!$this->getOne('Resource')) {
             $this->Resource = $this->xpdo->newObject('modResource');
         }
         $this->prepareResource();
-        return $this->Resource->save();
+        if ($this->createResourceHistory()) {
+            $applied = $this->Resource->save();
+        }
+        return $applied;
+    }
+
+    protected function createResourceHistory() {
+        $created = false;
+
+        /** @var modProcessorResponse $response */
+        $response = $this->xpdo->runProcessor(
+            'revise/resource/history/create',
+            array(
+                'source' => $this->Resource->get('id'),
+                'data' => $this->Resource->toArray('', true, true, false)
+            ),
+            array('processors_path' => $this->xpdo->revise->getOption('processorsPath'))
+        );
+
+        if (!$response->isError()) {
+            $object = $response->getObject();
+            $created = $object['id'];
+        } else {
+            $this->xpdo->log(xPDO::LOG_LEVEL_ERROR, $response->getMessage(), '', __METHOD__, __FILE__, __LINE__);
+        }
+        return $created;
     }
 
     protected function prepareResource() {
