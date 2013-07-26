@@ -6,6 +6,7 @@ class ReviseResourceDraftGetListProcessor extends modObjectGetListProcessor {
     public $objectType = 'revise_resource_draft';
     public $languageTopics = array('resource', 'revise:default');
     public $defaultSortField = 'time';
+    public $defaultSortDirection = 'DESC';
 
     public function getData() {
         $data = array();
