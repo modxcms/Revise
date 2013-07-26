@@ -12,6 +12,7 @@ switch ($modx->event->name) {
             $revise = $modx->getService('revise', 'Revise', $corePath . 'components/revise/model/revise/', array('core_path' => $corePath));
 
             /* get the resource fresh without the pending changes */
+            /** @var modResource $existingResource */
             $existingResource = $modx->getObject('modResource', $id, false);
 
             /** @var modProcessorResponse $response */
@@ -21,7 +22,7 @@ switch ($modx->event->name) {
                     'source' => $existingResource->get('id'),
                     'data' => $existingResource->toArray('', true, true, false)
                 ),
-                array('processors_path' => $revise->getOption('core_path') . 'components/revise/processors/')
+                array('processors_path' => $revise->getOption('processorsPath'))
             );
             if ($response->isError()) {
                 $modx->log(modX::LOG_LEVEL_ERROR, $response->getMessage(), '', 'modPlugin::Revise', __FILE__, __LINE__);
