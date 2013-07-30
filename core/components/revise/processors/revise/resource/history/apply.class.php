@@ -16,10 +16,19 @@ class ReviseResourceHistoryApplyProcessor extends modObjectGetProcessor {
     }
 
     public function cleanup() {
+        $data = $this->object->toArray('', false, true, true);
         if ($this->getProperty('refreshCache', false)) {
-            $this->modx->getCacheManager()->refresh();
+            $context = array($data['Resource']['context_key']);
+            $this->modx->getCacheManager()->refresh(
+                array(
+                    'auto_publish' => array('contexts' => $context),
+                    'context_settings' => array('contexts' => $context),
+                    'db' => array(),
+                    'resource' => array('contexts' => $context),
+                )
+            );
         }
-        return parent::cleanup();
+        return $this->success('', $data);
     }
 }
 
