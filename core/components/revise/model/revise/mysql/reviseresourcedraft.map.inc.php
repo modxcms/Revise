@@ -26,8 +26,19 @@ $xpdo_meta_map['ReviseResourceDraft']= array (
   'extends' => 'ReviseResourceObject',
   'fields' => 
   array (
+    'source' => 0,
   ),
   'fieldMeta' => 
   array (
+    'source' => 
+    array (
+      'dbtype' => 'int',
+      'precision' => '10',
+      'attributes' => 'unsigned',
+      'phptype' => 'integer',
+      'null' => false,
+      'default' => 0,
+      'index' => 'fk',
+    ),
   ),
 );

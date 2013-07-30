@@ -28,6 +28,7 @@
         <aggregate alias="Resource" class="modResource" local="source" foreign="id" cardinality="one" owner="foreign" />
     </object>
     <object class="ReviseResourceDraft" table="revise_resource_drafts" extends="ReviseResourceObject">
+        <field key="source" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" index="fk" />
     </object>
     <object class="ReviseResourceHistory" table="revise_resource_history" extends="ReviseResourceObject">
     </object>

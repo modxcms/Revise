@@ -16,13 +16,15 @@ class ReviseResourceDraftApplyProcessor extends modObjectGetProcessor {
     }
 
     public function cleanup() {
-        if ($this->getProperty('removeDraft', true)) {
-            $this->object->remove();
-        }
+        $data = $this->object->toArray('', false, true, true);
         if ($this->getProperty('refreshCache', false)) {
             $this->modx->getCacheManager()->refresh();
         }
-        return parent::cleanup();
+        if ($this->getProperty('removeDraft', true)) {
+            $this->object->remove();
+        }
+        return $this->success('', $data);
+//        return parent::cleanup();
     }
 }
 

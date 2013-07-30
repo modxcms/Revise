@@ -31,12 +31,14 @@ abstract class ReviseResourceObject extends ReviseObject {
     }
 
     public function apply() {
+        $create = false;
         $applied = false;
         if (!$this->getOne('Resource')) {
             $this->Resource = $this->xpdo->newObject('modResource');
+            $create = true;
         }
         $this->prepareResource();
-        if ($this->createResourceHistory()) {
+        if ($create || $this->createResourceHistory()) {
             $applied = $this->Resource->save();
         }
         return $applied;
