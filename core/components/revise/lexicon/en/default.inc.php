@@ -4,6 +4,8 @@ $_lang['revise_desc'] = "Resource History and Draft Management";
 
 $_lang['revise_bulk_actions'] = "Bulk Actions";
 $_lang['revise_drafts'] = "Drafts";
+$_lang['revise_filter_by_time_after'] = "Filter After";
+$_lang['revise_filter_by_time_before'] = "Filter Before";
 $_lang['revise_filter_by_source'] = "Filter By Source";
 $_lang['revise_filter_by_user'] = "Filter By User";
 $_lang['revise_history'] = "History";

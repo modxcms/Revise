@@ -71,12 +71,14 @@ Revise.grid.ResourceHistory = function(config) {
         },{
             xtype: 'datefield',
             id: 'history-after-filter'
+            ,emptyText: _('revise_filter_by_time_after')
             ,listeners: {
                 'select': {fn:this.filterAfter, scope:this}
             }
         },{
             xtype: 'datefield',
             id: 'history-before-filter'
+            ,emptyText: _('revise_filter_by_time_before')
             ,listeners: {
                 'select': {fn:this.filterBefore, scope:this}
             }
@@ -128,12 +130,22 @@ Ext.extend(Revise.grid.ResourceHistory,MODx.grid.Grid,{
         this.refresh();
     }
     ,filterAfter: function(cb,nv,ov) {
+        var before = Ext.getCmp('history-before-filter');
         this.getStore().setBaseParam('after',cb.getValue());
+        if (before.getValue() < cb.getValue()) {
+            this.getStore().setBaseParam('before', null);
+            before.reset();
+        }
         this.getBottomToolbar().changePage(1);
         this.refresh();
     }
     ,filterBefore: function(cb,nv,ov) {
+        var after = Ext.getCmp('history-after-filter');
         this.getStore().setBaseParam('before',cb.getValue());
+        if (after.getValue() > cb.getValue()) {
+            this.getStore().setBaseParam('after', null);
+            after.reset();
+        }
         this.getBottomToolbar().changePage(1);
         this.refresh();
     }
