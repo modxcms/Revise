@@ -19,6 +19,16 @@ class ReviseResourceDraftGetListProcessor extends modObjectGetListProcessor {
         $data['total'] = $this->modx->getCount($this->classKey,$c);
         $c = $this->prepareQueryAfterCount($c);
 
+        $c->leftJoin('modUser', 'User', array("User.id = {$this->classKey}.user"));
+        $c->leftJoin('modResource', 'Resource', array("Resource.id = {$this->classKey}.source"));
+
+        $select = array(
+            $this->modx->getSelectColumns($this->classKey, $this->classKey, ''),
+            $this->modx->getSelectColumns('modUser', 'User', '', array('username')),
+            $this->modx->getSelectColumns('modResource', 'Resource', '', array('pagetitle'))
+        );
+        $c->select(implode(', ', $select));
+
         $sortClassKey = $this->getSortClassKey();
         $sortKey = $this->modx->getSelectColumns($sortClassKey,$this->getProperty('sortAlias',$sortClassKey),'',array($this->getProperty('sort')));
         if (empty($sortKey)) $sortKey = $this->getProperty('sort');
@@ -52,9 +62,9 @@ class ReviseResourceDraftGetListProcessor extends modObjectGetListProcessor {
 
     public function prepareQueryBeforeCount(xPDOQuery $c) {
         $criteria = array();
-        $resource = (integer)$this->getProperty('resource', 0);
-        if ($resource > 0) {
-            $criteria['resource'] = $resource;
+        $source = (integer)$this->getProperty('source', 0);
+        if ($source > 0) {
+            $criteria['source'] = $source;
         }
 
         $user = (integer)$this->getProperty('user', 0);
@@ -62,13 +72,13 @@ class ReviseResourceDraftGetListProcessor extends modObjectGetListProcessor {
             $criteria['user'] = $user;
         }
 
-        $start = (integer)$this->getProperty('startTime', 0);
-        if ($start > 0) {
-            $criteria['time:>'] = strftime("%Y-%m-%d %H:%M:%S", $start);
+        $start = $this->getProperty('after', 0);
+        if (!empty($start)) {
+            $criteria['time:>'] = strftime("%Y-%m-%d %H:%M:%S", strtotime($start));
         }
-        $end = (integer)$this->getProperty('endTime', 0);
-        if ($end > 0) {
-            $criteria['time:<'] = strftime("%Y-%m-%d %H:%M:%S", $end);
+        $end = $this->getProperty('before', 0);
+        if (!empty($end)) {
+            $criteria['time:<'] = strftime("%Y-%m-%d %H:%M:%S", strtotime($end));
         }
 
         if (!empty($criteria)) {

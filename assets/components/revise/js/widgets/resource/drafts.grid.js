@@ -11,7 +11,7 @@ Revise.grid.ResourceDrafts = function(config) {
             ,after: config.after || null
             ,before: config.before || null
         }
-        ,fields: ['id','source','user','time','message','menu']
+        ,fields: ['id','source','pagetitle','user','username','time','message','menu']
         ,paging: true
         ,autosave: false
         ,remoteSort: true
@@ -24,13 +24,13 @@ Revise.grid.ResourceDrafts = function(config) {
             ,dataIndex: 'source'
             ,editable: false
             ,width: 100
-//            ,renderer: this.renderSource
+            ,renderer: this.renderSource
         },{
             header: _('revise_user')
             ,dataIndex: 'user'
             ,editable: false
             ,width: 100
-//            ,renderer: this.renderUser
+            ,renderer: this.renderUser
         },{
             header: _('revise_time')
             ,dataIndex: 'time'
@@ -59,7 +59,7 @@ Revise.grid.ResourceDrafts = function(config) {
             ,id: 'drafts-source-filter'
             ,emptyText: _('revise_filter_by_source')
             ,listeners: {
-                'select': {fn:this.filterSource, scope:this}
+                'change': {fn:this.filterSource, scope:this}
             }
         },{
             xtype: 'textfield'
@@ -67,19 +67,19 @@ Revise.grid.ResourceDrafts = function(config) {
             ,id: 'drafts-user-filter'
             ,emptyText: _('revise_filter_by_user')
             ,listeners: {
-                'select': {fn:this.filterUser, scope:this}
+                'change': {fn:this.filterUser, scope:this}
             }
         },{
             xtype: 'datefield',
             id: 'drafts-after-filter'
             ,listeners: {
-                'select': {fn: this.filterDate}
+                'select': {fn: this.filterAfter, scope: this}
             }
         },{
             xtype: 'datefield',
             id: 'drafts-before-filter'
             ,listeners: {
-                'select': {fn: this.filterDate}
+                'select': {fn: this.filterBefore, scope: this}
             }
         },{
             xtype: 'button'
@@ -104,30 +104,39 @@ Ext.extend(Revise.grid.ResourceDrafts,MODx.grid.Grid,{
         this.getBottomToolbar().changePage(1);
         this.refresh();
     }
-    ,filterSource: function() {}
-    ,filterUser: function() {}
-    ,filterDate: function() {
-        var grid = Ext.getCmp('revise-grid-resource-drafts');
-        var after = Ext.getCmp('drafts-after-filter').getValue();
-        var before = Ext.getCmp('drafts-before-filter').getValue();
-        var haveBothDates = after !== null && before !== null;
-        // date sanity
-        if(haveBothDates) {
-            if(this.id == 'drafts-after-filter' && after > before) {
-                Ext.getCmp('drafts-after-filter').setValue(before);
-                after = before;
-            }
-            if(this.id == 'drafts-before-filter' && after > before) {
-                Ext.getCmp('drafts-before-filter').setValue(after);
-                before = after;
-            }
-        }
-        if(after !== null) {
-            grid.getStore().baseParams['after'] = after;
-        }
-        if(before !== null) {
-            grid.getStore().baseParams['before'] = before;
-        }
+    ,renderUser: function(v,md,rec) {
+        return String.format(
+            '<span class="revise-author"><b>{0}</b>&mdash;{1}</span>',
+            v,
+            rec.data.username
+        );
+    }
+    ,renderSource: function(v,md,rec) {
+        return String.format(
+            '<span class="revise-source"><b>{0}</b>&mdash;{1}</span>',
+            v,
+            rec.data.pagetitle
+        );
+    }
+    ,filterSource: function(cb,nv,ov) {
+        this.getStore().setBaseParam('source',cb.getValue());
+        this.getBottomToolbar().changePage(1);
+        this.refresh();
+    }
+    ,filterUser: function(cb,nv,ov) {
+        this.getStore().setBaseParam('user',cb.getValue());
+        this.getBottomToolbar().changePage(1);
+        this.refresh();
+    }
+    ,filterAfter: function(cb,nv,ov) {
+        this.getStore().setBaseParam('after',cb.getValue());
+        this.getBottomToolbar().changePage(1);
+        this.refresh();
+    }
+    ,filterBefore: function(cb,nv,ov) {
+        this.getStore().setBaseParam('before',cb.getValue());
+        this.getBottomToolbar().changePage(1);
+        this.refresh();
     }
     ,viewRevision: function() {
         var url = this.config.url + '?action=revise/resource/draft/view&id=' + this.menu.record.id + '&HTTP_MODAUTH=' + MODx.siteId;
