@@ -41,6 +41,20 @@ $builder = new modPackageBuilder($modx);
 $builder->createPackage(PKG_LNAME, PKG_VERSION, PKG_RELEASE);
 $builder->registerNamespace(PKG_LNAME, false, true, '{core_path}components/' . PKG_LNAME . '/', '{assets_path}components/' . PKG_LNAME . '/');
 
+/* add system settings */
+if ($systemSettings = include $sources['data'] . 'transport.system_settings.php') {
+    foreach ($systemSettings as $systemSetting) {
+        $vehicle = $builder->createVehicle(
+            $systemSetting,
+            array(
+                xPDOTransport::UPDATE_OBJECT => false,
+                xPDOTransport::PRESERVE_KEYS => true
+            )
+        );
+        $builder->putVehicle($vehicle);
+    }
+}
+
 /* add menu item / action */
 /** @var modAction $action */
 $action = $modx->newObject('modAction');

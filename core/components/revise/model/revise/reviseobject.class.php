@@ -26,4 +26,44 @@ abstract class ReviseObject extends xPDOSimpleObject {
 
     abstract public function apply();
     abstract public function view(array $options = array());
+
+    public function save($cacheFlag = null) {
+        if (isset($this->xpdo->revise) && !$this->xpdo->getOption(xPDO::OPT_SETUP, null, false)) {
+            $gc = $this->gc();
+            if ($gc !== false) {
+                $this->xpdo->log(xPDO::LOG_LEVEL_INFO, "Revise GC removed {$gc} instances of {$this->_class}", '', __METHOD__, __FILE__, __LINE__);
+            } else {
+                $this->xpdo->log(xPDO::LOG_LEVEL_ERROR, "Revise GC encountered an error", '', __METHOD__, __FILE__, __LINE__);
+            }
+        }
+        return parent::save($cacheFlag);
+    }
+
+    public function remove(array $ancestors = array()) {
+        $return = parent::remove($ancestors);
+        if (isset($this->xpdo->revise) && !$this->xpdo->getOption(xPDO::OPT_SETUP, null, false)) {
+            $gc = $this->gc();
+            if ($gc !== false) {
+                $this->xpdo->log(xPDO::LOG_LEVEL_INFO, "Revise GC removed {$gc} instances of {$this->_class}", '', __METHOD__, __FILE__, __LINE__);
+            } else {
+                $this->xpdo->log(xPDO::LOG_LEVEL_ERROR, "Revise GC encountered an error", '', __METHOD__, __FILE__, __LINE__);
+            }
+        }
+        return $return;
+    }
+
+    /**
+     * Perform Garbage Collection, removing objects older than gc_maxlifetime.
+     *
+     * @return int|bool The number of objects removed or false on failure.
+     */
+    public function gc() {
+        $removed = 0;
+        $maxLifetime = (integer)$this->xpdo->revise->getOption('gc_maxlifetime', null, 0);
+        if ($maxLifetime > 0) {
+            $inSeconds = $maxLifetime * 60 * 60 * 24;
+            $removed = $this->xpdo->removeCollection($this->_class, array('time:<' => strftime("%Y-%m-%d %H:%M:%S", time() - $inSeconds)));
+        }
+        return $removed;
+    }
 }

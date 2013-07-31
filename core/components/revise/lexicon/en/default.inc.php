@@ -25,3 +25,7 @@ $_lang['revise_view_resource_draft'] = "Preview";
 $_lang['revise_apply_resource_draft'] = "Apply draft";
 $_lang['revise_view_resource_history'] = "Review";
 $_lang['revise_apply_resource_history'] = "Revert to";
+
+$_lang['area_revise.gc'] = "Garbage Collection";
+$_lang['setting_revise.gc_maxlifetime'] = "History and Draft Max Lifetime";
+$_lang['setting_revise.gc_maxlifetime_desc'] = "The maximum number of days to retain Draft and History records in the database. 0 == persist forever.";
