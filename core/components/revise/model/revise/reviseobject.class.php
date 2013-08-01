@@ -24,7 +24,20 @@ abstract class ReviseObject extends xPDOSimpleObject {
     /** @var xPDO|modX */
     public $xpdo = null;
 
+    /**
+     * Apply this Revision back to it's source.
+     *
+     * @return bool true if successfully applied, otherwise false.
+     */
     abstract public function apply();
+
+    /**
+     * View this Revision as appropriate based on it's source.
+     *
+     * @param array $options An array of options for the view.
+     *
+     * @return mixed A response appropriate for the source and view options.
+     */
     abstract public function view(array $options = array());
 
     public function save($cacheFlag = null) {

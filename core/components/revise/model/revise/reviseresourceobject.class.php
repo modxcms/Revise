@@ -39,11 +39,17 @@ abstract class ReviseResourceObject extends ReviseObject {
         }
         $this->prepareResource();
         if ($create || $this->createResourceHistory()) {
+            /* TODO: use Resource processors rather than saving directly */
             $applied = $this->Resource->save();
         }
         return $applied;
     }
 
+    /**
+     * Create a ReviseResourceHistory object
+     *
+     * @return int|bool The object id of the object or false on failure.
+     */
     protected function createResourceHistory() {
         $created = false;
 
@@ -66,6 +72,9 @@ abstract class ReviseResourceObject extends ReviseObject {
         return $created;
     }
 
+    /**
+     * Prepare the Resource from the revision data.
+     */
     protected function prepareResource() {
         $this->Resource->fromArray($this->get('data'), '', $this->Resource->isNew(), true, true);
         //TODO: handle temporary tv_data
@@ -79,6 +88,13 @@ abstract class ReviseResourceObject extends ReviseObject {
 //        $this->Resource->addMany($tvs);
     }
 
+    /**
+     * Prepare the output to view the Resource revision.
+     *
+     * @param bool $ignoreTemplate Indicates if the Resource Template should be ignored.
+     *
+     * @return array An associated array containing an array of output headers and a string body.
+     */
     protected function prepareOutput($ignoreTemplate = false) {
         $output = array();
 
