@@ -39,8 +39,17 @@ abstract class ReviseResourceObject extends ReviseObject {
         }
         $this->prepareResource();
         if ($create || $this->createResourceHistory()) {
-            /* TODO: use Resource processors rather than saving directly */
-            $applied = $this->Resource->save();
+            /** @var modProcessorResponse $response */
+            $response = $this->xpdo->runProcessor(
+                'resource/' . ($create ? 'create' : 'update'),
+                $this->Resource->toArray()
+            );
+            
+            if (!$response->isError()) {
+                $applied = true;
+            } else {
+                $this->xpdo->log(xPDO::LOG_LEVEL_ERROR, $response->getMessage(), '', __METHOD__, __FILE__, __LINE__);
+            }
         }
         return $applied;
     }
