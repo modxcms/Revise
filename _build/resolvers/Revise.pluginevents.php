@@ -6,7 +6,8 @@ if ($object && $pluginid= $object->get('id')) {
         case xPDOTransport::ACTION_UPGRADE:
             if (isset($options['activatePlugin']) && !empty($options['activatePlugin'])) {
                 $events = array(
-                    'OnBeforeDocFormSave'
+                    'OnBeforeDocFormSave',
+                    'OnDocFormRender'
                 );
                 foreach ($events as $eventName) {
                     /** @var modEvent $event */
