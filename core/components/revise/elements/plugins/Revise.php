@@ -115,17 +115,17 @@ Ext.onReady(function () {
 	   Ext.applyIf(config,{          
 			 name: 'draftCombo'  
 			,hiddenName: 'draftCombo'
-		    ,displayField: 'time'
-            ,fields: ['time','id']
-         	,valueField: 'id'
-		    ,listWidth: 500
-			,width: 500
+		        ,displayField: 'time'
+                        ,fields: ['time','id']
+         	        ,valueField: 'id'
+		        ,listWidth: 450
+			,anchor: '100%'
 			,pageSize: 5
 			,url: reviseParams.connectorUrl
 			,baseParams: {
 					action: 'revise/resource/draft/getlist', 
-                            'source' : reviseParams.source,
-							'combo': true
+                                                'source' : reviseParams.source,
+					        'combo': true
 				}	
 
             ,listeners: {
