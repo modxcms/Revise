@@ -59,7 +59,7 @@ Ext.onReady(function () {
 
             /* Update content from ta */
             data.content = data.ta;
-            
+
             MODx.Ajax.request({
                 url: reviseParams.connectorUrl,
                 params: {
@@ -115,17 +115,17 @@ Ext.onReady(function () {
 	   Ext.applyIf(config,{          
 			 name: 'draftCombo'  
 			,hiddenName: 'draftCombo'
-		        ,displayField: 'time'
-                        ,fields: ['time','id']
-         	        ,valueField: 'id'
-		        ,listWidth: 450
+		    ,displayField: 'time'
+            ,fields: ['time','id']
+         	,valueField: 'id'
+		    ,listWidth: 450
 			,anchor: '100%'
 			,pageSize: 5
 			,url: reviseParams.connectorUrl
 			,baseParams: {
 					action: 'revise/resource/draft/getlist', 
-                                                'source' : reviseParams.source,
-					        'combo': true
+                            'source' : reviseParams.source,
+							'combo': true
 				}	
 
             ,listeners: {
@@ -141,7 +141,7 @@ Ext.onReady(function () {
 	   Ext.extend(draftCombo,MODx.combo.ComboBox);
 	   Ext.reg('draftCombo',draftCombo);
 
-
+       if (reviseParams.source) {
 		panel.insert(0,
 			   {
 				id: 'draftCombo',
@@ -152,7 +152,7 @@ Ext.onReady(function () {
 				fieldLabel: 'Select Draft:'
 			   }
 		);
-
+       }
         buttons.add(
             {
                 xtype: 'tbspacer',
@@ -168,9 +168,55 @@ Ext.onReady(function () {
                 handler: function () {
                     /* create the draft */
                     createDraft(reviseParams, false);
-
+					Ext.getCmp('draftCombo').lastQuery = null;
                 }
             },
+
+			{
+                xtype: 'tbspacer',
+                width: 5
+            },
+
+			{
+                id: 'loadDraft',
+                name: 'test',
+                xtype: 'button',
+                cls: 'x-btn x-btn-text bmenu x-btn-noicon',
+                text: 'Load Draft',
+                disabled: reviseParams.source == 0,
+                handler: function () {
+                          var myCombo = Ext.getCmp('draftCombo');
+						  var data = Ext.getCmp('modx-panel-resource').getForm().getValues();
+						  var draftItems = myCombo.getStore();
+						  draftItems.each(function(r) {
+							 if (myCombo.getValue() == r.get('id')){
+                                Ext.getCmp('modx-panel-resource').getForm().setValues(r.json.data);
+								var pagetitle = Ext.getCmp('modx-resource-pagetitle');
+
+								//Ext.getCmp('modx-panel-resource').fireEvent('fieldChange');
+                                //maybe change this with fireEvent('keyup')
+                                var title = Ext.util.Format.stripTags(pagetitle.getValue());
+                                Ext.getCmp('modx-resource-header').getEl().update('<h2>'+title+'</h2>');
+
+								/* Update ta from content */
+                                var dataContent = r.json.data.content;
+								Ext.getCmp('ta').setValue(dataContent);
+								if (typeof MODx.editor != 'undefined') {
+									MODx.editor.setValue(dataContent);
+								}
+
+								panel.doLayout();
+
+								return false; // break here
+							 }
+						   });
+
+
+						  //Ext.encode(data); 
+
+			   }
+            },
+
 			{
                 xtype: 'tbspacer',
                 width: 5
