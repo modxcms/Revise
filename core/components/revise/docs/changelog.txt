@@ -1,5 +1,7 @@
 Changelog for Revise.
 
+- Fix filter History by source
+
 Revise 1.0.0-pl (TBD)
 ====================================
 - Initial release

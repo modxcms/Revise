@@ -62,9 +62,9 @@ class ReviseResourceHistoryGetListProcessor extends modObjectGetListProcessor {
 
     public function prepareQueryBeforeCount(xPDOQuery $c) {
         $criteria = array();
-        $resource = (integer)$this->getProperty('resource', 0);
-        if ($resource > 0) {
-            $criteria['resource'] = $resource;
+        $source = (integer)$this->getProperty('source', 0);
+        if ($source > 0) {
+            $criteria['source'] = $source;
         }
 
         $user = (integer)$this->getProperty('user', 0);
